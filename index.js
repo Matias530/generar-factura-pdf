@@ -15,7 +15,7 @@ app.post('/generar-pdf', async (req, res) => {
     try {
         browser = await puppeteer.launch({ 
             headless: 'new',
-            args: ['--no-sandbox', '--disable-setuid-sandbox'] // Clave para evitar errores en servidores
+            args: ['--no-sandbox', '--disable-setuid-sandbox']
         });
         const page = await browser.newPage();
 
@@ -23,7 +23,7 @@ app.post('/generar-pdf', async (req, res) => {
 
         const pdfBuffer = await page.pdf({
             format: 'A4',
-            printBackground: true // Para que se vean los colores de fondo de tu tabla
+            printBackground: true
         });
 
         res.contentType("application/pdf");
@@ -36,6 +36,8 @@ app.post('/generar-pdf', async (req, res) => {
         if (browser) await browser.close();
     }
 });
+
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Microservicio de PDFs corriendo en el puerto ${PORT}`);
